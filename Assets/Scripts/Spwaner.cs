@@ -38,12 +38,9 @@ public class Spwaner : MonoBehaviour
             else
             {
                 spawner.transform.position = rightPos.position;
-                spawner.GetComponent<Monster>().speed = Random.Range(4, 10);
+                spawner.GetComponent<Monster>().speed = -Random.Range(4, 10);
                 spawner.transform.localScale = new Vector3(-1f, 1f, 1f);
             }
-
-            Debug.Log("speed: " + spawner.GetComponent<Monster>().speed);
-
         }
 
     }

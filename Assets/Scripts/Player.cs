@@ -13,7 +13,7 @@ public class Player : MonoBehaviour
     private bool onGround = true;
     private string isRun = "walk";
     private string GROUND_TAG = "Ground";
-
+    private string ENEMY_TAG = "Enemy";
 
     private Animator ani;
     private SpriteRenderer sr;
@@ -80,16 +80,27 @@ public class Player : MonoBehaviour
         {
             ani.SetBool(isRun, false);
         } 
-
     }
 
 
-    private void OnCollisionEnter2D(Collision2D collistion)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collistion.gameObject.CompareTag(GROUND_TAG))
+        if(collision.gameObject.CompareTag(GROUND_TAG))
         {
             onGround = true;
         }
+
+        if (collision.gameObject.CompareTag(ENEMY_TAG))
+        {
+            Destroy(gameObject);
+        }
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag(ENEMY_TAG))
+        {
+            Destroy(collision.gameObject);
+        }
+    }
 }
