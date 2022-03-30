@@ -167,3 +167,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   move_x: 0
   moveForce: 10
+  speed: 10
+  turnSpeed: 0

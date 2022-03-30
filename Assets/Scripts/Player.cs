@@ -10,6 +10,9 @@ public class Player : MonoBehaviour
     public float moveForce = 10f;
     private float jumForce = 10f;
 
+    public float speed = 10f;
+    public float turnSpeed = 100f;
+
     private bool onGround = true;
     private string isRun = "walk";
     private string GROUND_TAG = "Ground";
@@ -37,6 +40,7 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+       // movement();
         move();
         animatePlayer();
     }
@@ -52,15 +56,22 @@ public class Player : MonoBehaviour
         transform.position += new Vector3(move_x, 0f, 0f) * Time.deltaTime * moveForce;
     }
 
+    void movement()
+    {
+        float forwardMovement = Input.GetAxis("Vertical") * speed * Time.deltaTime;
+        float turnMovement = Input.GetAxis("Horizontal") * turnSpeed * Time.deltaTime;
+
+        transform.Translate(Vector3.forward * forwardMovement);
+        transform.Rotate(Vector3.up * turnMovement);
+    }
+
     public void jump()
     {
-        if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.UpArrow))
+        if ((Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.UpArrow))  && onGround)
         {
-            if(onGround)
-            {
-                onGround = false;
-                rg.AddForce(new Vector2(0f, jumForce), ForceMode2D.Impulse);
-            }
+            Debug.Log("jump");
+            onGround = false;
+            rg.AddForce(new Vector2(0f, jumForce), ForceMode2D.Impulse);
         }
     }
 
@@ -93,14 +104,6 @@ public class Player : MonoBehaviour
         if (collision.gameObject.CompareTag(ENEMY_TAG))
         {
             Destroy(gameObject);
-        }
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.CompareTag(ENEMY_TAG))
-        {
-            Destroy(collision.gameObject);
         }
     }
 }
